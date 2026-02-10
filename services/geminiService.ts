@@ -2,11 +2,23 @@ import { GoogleGenAI } from "@google/genai";
 import { PERSONA_DATA } from "../constants";
 import { Persona } from "../types";
 
-// Always use const ai = new GoogleGenAI({apiKey: process.env.API_KEY});
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Safe initialization
+const getAI = () => {
+  const key = process.env.API_KEY;
+  if (!key || key === "UNDEFINED" || key === "PLACEHOLDER_API_KEY") {
+    console.warn("Gemini API Key is missing or invalid.");
+    return null;
+  }
+  return new GoogleGenAI({ apiKey: key });
+};
 
 export const getAIResponse = async (prompt: string, personas: Persona[]) => {
   try {
+    const ai = getAI();
+    if (!ai) {
+      return "현재 AI 서비스와 연결할 수 없습니다. (API 키 확인 필요)";
+    }
+
     const systemInstruction = personas
       .map((p) => PERSONA_DATA[p].instruction)
       .join("\n\n");
