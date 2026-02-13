@@ -87,6 +87,14 @@ const App: React.FC = () => {
     setActiveMessage(aiResp);
   };
 
+  const handleKeyPress = (key: string) => {
+    setInputText((prev) => prev + key);
+  };
+
+  const handleBackspace = () => {
+    setInputText((prev) => prev.slice(0, -1));
+  };
+
   const renderSplash = () => (
     <div className="h-screen w-full flex items-center justify-center bg-[#F0EEE9]">
       <div className="w-32 h-32 bg-[#D9D9D9] rounded-full flex items-center justify-center shadow-md">
@@ -598,10 +606,11 @@ const App: React.FC = () => {
 
                 {/* Input Display Area */}
                 <div className="w-full bg-white rounded-[20px] p-6 shadow-sm flex items-center justify-between mb-8">
-                  <div className="text-xl font-medium text-gray-900">
-                    test. test. test. test.
-                    <br />
-                    test. test. test. <span className="animate-pulse">|</span>
+                  <div
+                    className={`text-xl font-medium flex-1 ${inputText ? "text-gray-900" : "text-gray-400"}`}
+                  >
+                    {inputText || "오늘 기분 어떠신가요?"}
+                    <span className="animate-pulse text-gray-400 ml-1">|</span>
                   </div>
                   <Mic
                     size={32}
@@ -639,7 +648,8 @@ const App: React.FC = () => {
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((k) => (
                       <div
                         key={k}
-                        className="w-[8.5%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200"
+                        onClick={() => handleKeyPress(k.toString())}
+                        className="w-[8.5%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200 cursor-pointer"
                       >
                         {k}
                       </div>
@@ -651,7 +661,8 @@ const App: React.FC = () => {
                       (k) => (
                         <div
                           key={k}
-                          className="w-[8.5%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200"
+                          onClick={() => handleKeyPress(k)}
+                          className="w-[8.5%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200 cursor-pointer"
                         >
                           {k}
                         </div>
@@ -663,7 +674,8 @@ const App: React.FC = () => {
                     {["A", "S", "D", "F", "G", "H", "J", "K", "L"].map((k) => (
                       <div
                         key={k}
-                        className="w-[9%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200"
+                        onClick={() => handleKeyPress(k)}
+                        className="w-[9%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200 cursor-pointer"
                       >
                         {k}
                       </div>
@@ -671,7 +683,7 @@ const App: React.FC = () => {
                   </div>
                   {/* Row 4 */}
                   <div className="flex justify-center gap-3 px-2">
-                    <div className="w-[12%] aspect-[3/4] bg-[#B0B8C1] rounded-md flex items-center justify-center shadow-sm">
+                    <div className="w-[12%] aspect-[3/4] bg-[#B0B8C1] rounded-md flex items-center justify-center shadow-sm cursor-pointer active:bg-gray-400">
                       <ArrowRight
                         size={24}
                         className="rotate-[-90deg] text-gray-700"
@@ -680,33 +692,46 @@ const App: React.FC = () => {
                     {["Z", "X", "C", "V", "B", "N", "M"].map((k) => (
                       <div
                         key={k}
-                        className="w-[9%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200"
+                        onClick={() => handleKeyPress(k)}
+                        className="w-[9%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200 cursor-pointer"
                       >
                         {k}
                       </div>
                     ))}
-                    <div className="w-[12%] aspect-[3/4] bg-[#B0B8C1] rounded-md flex items-center justify-center shadow-sm">
+                    <div
+                      onClick={handleBackspace}
+                      className="w-[12%] aspect-[3/4] bg-[#B0B8C1] rounded-md flex items-center justify-center shadow-sm cursor-pointer active:bg-gray-400"
+                    >
                       <div className="text-xl">⌫</div>
                     </div>
                   </div>
                   {/* Row 5 */}
                   <div className="flex justify-center gap-2 px-2 mt-1">
-                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm">
+                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm cursor-pointer active:bg-gray-400">
                       !#1
                     </div>
-                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm">
+                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm cursor-pointer active:bg-gray-400">
                       한/영
                     </div>
-                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm">
+                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm cursor-pointer active:bg-gray-400">
                       @
                     </div>
-                    <div className="flex-1 h-12 bg-white rounded-md flex items-center justify-center shadow-sm">
+                    <div
+                      onClick={() => handleKeyPress(" ")}
+                      className="flex-1 h-12 bg-white rounded-md flex items-center justify-center shadow-sm cursor-pointer active:bg-gray-200"
+                    >
                       <div className="w-1/2 h-1 bg-gray-300 rounded-full"></div>
                     </div>
-                    <div className="w-[12%] h-12 bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm">
+                    <div
+                      onClick={() => handleKeyPress(".")}
+                      className="w-[12%] h-12 bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm cursor-pointer active:bg-gray-200"
+                    >
                       .
                     </div>
-                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center shadow-sm">
+                    <div
+                      onClick={handleSend}
+                      className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center shadow-sm cursor-pointer active:bg-gray-400"
+                    >
                       <ArrowRight size={20} className="text-gray-700" />
                     </div>
                   </div>
