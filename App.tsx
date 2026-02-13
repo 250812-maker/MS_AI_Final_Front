@@ -3,6 +3,7 @@ import { AppState, Persona } from "./types";
 import { COLORS, PERSONA_DATA } from "./constants";
 import { Header, Drawer } from "./components/Layout";
 import { getAIResponse } from "./services/geminiService";
+import { composeHangul } from "./utils/hangul";
 // Added missing Calendar and Mail icons to the import list
 import {
   Mic,
@@ -30,6 +31,36 @@ const App: React.FC = () => {
   const [inputText, setInputText] = useState("");
   const [activeMessage, setActiveMessage] = useState<string>("");
   const [historyView, setHistoryView] = useState<"graph" | "list">("graph");
+  const [isKorean, setIsKorean] = useState(true);
+
+  const KOREAN_MAP: Record<string, string> = {
+    Q: "ㅂ",
+    W: "ㅈ",
+    E: "ㄷ",
+    R: "ㄱ",
+    T: "ㅅ",
+    Y: "ㅛ",
+    U: "ㅕ",
+    I: "ㅑ",
+    O: "ㅐ",
+    P: "ㅔ",
+    A: "ㅁ",
+    S: "ㄴ",
+    D: "ㅇ",
+    F: "ㄹ",
+    G: "ㅎ",
+    H: "ㅗ",
+    J: "ㅓ",
+    K: "ㅏ",
+    L: "ㅣ",
+    Z: "ㅋ",
+    X: "ㅌ",
+    C: "ㅊ",
+    V: "ㅍ",
+    B: "ㅠ",
+    N: "ㅜ",
+    M: "ㅡ",
+  };
 
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -88,6 +119,13 @@ const App: React.FC = () => {
   };
 
   const handleKeyPress = (key: string) => {
+    if (isKorean && /^[A-Z]$/.test(key)) {
+      const koChar = KOREAN_MAP[key];
+      if (koChar) {
+        setInputText((prev) => composeHangul(prev, koChar));
+        return;
+      }
+    }
     setInputText((prev) => prev + key);
   };
 
@@ -664,7 +702,7 @@ const App: React.FC = () => {
                           onClick={() => handleKeyPress(k)}
                           className="w-[8.5%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200 cursor-pointer"
                         >
-                          {k}
+                          {isKorean ? KOREAN_MAP[k] : k}
                         </div>
                       ),
                     )}
@@ -677,7 +715,7 @@ const App: React.FC = () => {
                         onClick={() => handleKeyPress(k)}
                         className="w-[9%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200 cursor-pointer"
                       >
-                        {k}
+                        {isKorean ? KOREAN_MAP[k] : k}
                       </div>
                     ))}
                   </div>
@@ -695,7 +733,7 @@ const App: React.FC = () => {
                         onClick={() => handleKeyPress(k)}
                         className="w-[9%] aspect-[3/4] bg-white rounded-md flex items-center justify-center text-xl font-medium shadow-sm active:bg-gray-200 cursor-pointer"
                       >
-                        {k}
+                        {isKorean ? KOREAN_MAP[k] : k}
                       </div>
                     ))}
                     <div
@@ -710,8 +748,11 @@ const App: React.FC = () => {
                     <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm cursor-pointer active:bg-gray-400">
                       !#1
                     </div>
-                    <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm cursor-pointer active:bg-gray-400">
-                      한/영
+                    <div
+                      onClick={() => setIsKorean(!isKorean)}
+                      className={`w-[12%] h-12 rounded-md flex items-center justify-center text-sm font-black shadow-sm cursor-pointer active:scale-95 transition-all ${isKorean ? "bg-black text-white" : "bg-[#B0B8C1] text-gray-700"}`}
+                    >
+                      {isKorean ? "한" : "영"}
                     </div>
                     <div className="w-[12%] h-12 bg-[#B0B8C1] rounded-md flex items-center justify-center text-sm font-medium text-gray-700 shadow-sm cursor-pointer active:bg-gray-400">
                       @
