@@ -98,7 +98,7 @@ const App: React.FC = () => {
       <div className="bg-white w-fit rounded-[40px] p-10 flex flex-col items-center shadow-2xl animate-slide-up">
         <Mic size={48} className="mb-6 text-black" />
         <p className="text-center font-medium mb-12 text-gray-800 text-lg">
-          &lt;Name&gt;에서 오디오를 녹음하도록 허용하시겠습니까?
+          AIRA에서 오디오를 녹음하도록 허용하시겠습니까?
         </p>
         <div className="w-full flex flex-col gap-6">
           <button
@@ -133,7 +133,7 @@ const App: React.FC = () => {
         onTouchEnd={onTouchEnd}
       >
         <h2 className="text-2xl font-bold mb-10 leading-snug text-gray-800">
-          루미&라미와 함께해 보세요
+          AIRA와 함께해 보세요
         </h2>
 
         <div className="mb-14">
@@ -361,7 +361,7 @@ const App: React.FC = () => {
       <p className="text-gray-500 text-center text-sm mb-16 leading-relaxed">
         사용하시는 캘린더를 연결하시면
         <br />
-        루미&라미가 참고하고
+        AIRA가 참고하고
         <br />
         리마인더를 드릴 수 있어요.
       </p>
@@ -389,7 +389,7 @@ const App: React.FC = () => {
       <p className="text-gray-500 text-center text-sm mb-16 leading-relaxed">
         사용하시는 이메일을 연결하시면
         <br />
-        루미&라미가 메일을 분류하고
+        AIRA가 메일을 분류하고
         <br />
         중요한 내용을 알려드릴 수 있어요.
       </p>

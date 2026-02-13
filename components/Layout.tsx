@@ -113,7 +113,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         <div className="p-8 h-full flex flex-col">
           <div className="flex justify-between items-center mb-10">
             <h2 className="text-4xl font-black italic tracking-tighter">
-              &lt;Name&gt;
+              AIRA
             </h2>
             <button onClick={onClose} className="hidden">
               <X size={24} />
